@@ -1,0 +1,144 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import CallBand from '../components/CallBand.astro';
+import { site, services } from '../data/site';
+---
+
+<Layout
+  title="Services"
+  description="Water heater repair & installation, sewer and drain jetting, water and gas lines, leak troubleshooting, fixtures and full residential & commercial plumbing in Athens, Ohio."
+>
+  <PageHero eyebrow="Services" title="All of your plumbing needs, handled." script="Big jobs, small jobs, all plumbing.">
+    <p>
+      From that leaky faucet to completely plumbing your commercial project. We hold an Ohio state license for commercial
+      work, Master Plumber License {site.license}.
+    </p>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap">
+      <ul class="list">
+        {
+          services.map((s, i) => (
+            <li class="item" data-reveal>
+              <span class="item__num" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span class="item__icon">
+                <Icon name={s.icon} size={30} />
+              </span>
+              <div>
+                <h2>{s.title}</h2>
+                <p>{s.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="tags" data-reveal>
+        <span class="tags__label">We work on:</span>
+        <span class="tag"><Icon name="house" size={18} /> Homes</span>
+        <span class="tag"><Icon name="building" size={18} /> Businesses</span>
+        <span class="tag"><Icon name="family" size={18} /> Rentals &amp; landlords</span>
+        <span class="tag"><Icon name="wrench" size={18} /> New builds &amp; remodels</span>
+      </div>
+    </div>
+  </section>
+
+  <CallBand title="Not sure what you need?" text="That's what Amber is for. Describe the problem and she'll make sure the right plumber shows up with the right equipment." />
+</Layout>
+
+<style>
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 30rem), 1fr));
+    gap: 1.25rem;
+  }
+  .item {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.25rem;
+    padding: 1.75rem;
+    background: #fff;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 5px 0 var(--ink);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+  }
+  .item:hover {
+    transform: translateY(-3px);
+  }
+  .item h2 {
+    font-size: 1.3rem;
+    margin: 0.3rem 0 0.5rem;
+    padding-right: 2.5rem;
+  }
+  .item p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  .item__icon {
+    display: grid;
+    place-items: center;
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 1.1rem;
+    background: var(--sky);
+    color: #fff;
+  }
+  .item:nth-child(3n + 2) .item__icon {
+    background: var(--sun);
+    color: var(--ink);
+  }
+  .item:nth-child(3n + 3) .item__icon {
+    background: var(--ink);
+  }
+  .item__num {
+    position: absolute;
+    top: 0.9rem;
+    right: 1.2rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: var(--sky-100);
+  }
+  @media (max-width: 480px) {
+    .item {
+      grid-template-columns: 1fr;
+      padding: 1.4rem;
+    }
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+  }
+  .tags__label {
+    font-family: var(--font-display);
+    font-weight: 600;
+    margin-right: 0.25rem;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.95rem;
+    border-radius: 999px;
+    background: var(--sky-50);
+    border: 1px solid var(--sky-100);
+    color: var(--sky-700);
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+</style>

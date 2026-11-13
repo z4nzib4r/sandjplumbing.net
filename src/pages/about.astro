@@ -1,0 +1,208 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import CallBand from '../components/CallBand.astro';
+import Icon from '../components/Icon.astro';
+import { site, yearsInBusiness } from '../data/site';
+import amberImg from '../assets/amber-portrait.jpg';
+
+const timeline = [
+  { year: '1994', text: 'Scott Wolfe starts S & J Plumbing in Athens, Ohio.' },
+  { year: '2006', text: 'Amber joins her father in the family business.' },
+  { year: 'Today', text: `${yearsInBusiness}+ years later, still locally owned, still family run.` },
+];
+---
+
+<Layout
+  title="About"
+  description="S & J Plumbing has been a family-run plumbing company in Athens, Ohio since 1994. Meet co-owner Amber Brown."
+>
+  <PageHero eyebrow="About us" title="A family business since 1994." script={site.tagline}>
+    <p>Plumbing runs in the family here, and so does treating every customer like a neighbor.</p>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap story">
+      <div class="story__photo" data-reveal>
+        <Image
+          src={amberImg}
+          alt="Co-owner Amber Brown smiling with arms crossed in the S&J Plumbing office"
+          widths={[400, 640, 900]}
+          sizes="(max-width: 860px) 92vw, 460px"
+        />
+        <span class="story__sticker">Co-owner<br /><strong>Amber Brown</strong></span>
+      </div>
+
+      <div data-reveal>
+        <span class="eyebrow"><Icon name="family" size={16} /> Our story</span>
+        <h2>A father-and-daughter team you can count on.</h2>
+        <p>
+          Scott Wolfe started the business in 1994, and in 2006 Amber joined her father in the company. As an only child,
+          Amber spent a lot of time with Scott working on projects around the house and farm, which taught her many
+          skills.
+        </p>
+        <p>
+          Bringing her into the company gave us something most plumbing companies don't have: <strong
+            >the person answering your call actually knows plumbing.</strong
+          > Amber can help you work out what you need, so our plumbers show up prepared to fix your problem. Her years of in-the-field
+          training make it easy!
+        </p>
+
+        <ol class="timeline">
+          {
+            timeline.map((t) => (
+              <li>
+                <span class="timeline__year">{t.year}</span>
+                <span>{t.text}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="values-wrap">
+    <div class="wrap">
+      <ul class="values">
+        <li class="card" data-reveal>
+          <Icon name="shield" size={30} />
+          <h3>Licensed &amp; insured</h3>
+          <p>Master Plumber License {site.license}, licensed for commercial work in Ohio.</p>
+        </li>
+        <li class="card" data-reveal>
+          <Icon name="check" size={30} />
+          <h3>We stand by our work</h3>
+          <p>Done correctly the first time, with quality name-brand parts from local suppliers.</p>
+        </li>
+        <li class="card" data-reveal>
+          <Icon name="family" size={30} />
+          <h3>Everyone treated equally</h3>
+          <p>Homeowners, landlords or business owners, every customer gets the same care.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <CallBand />
+</Layout>
+
+<style>
+  .story {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: center;
+  }
+  .story__photo {
+    position: relative;
+  }
+  .story__photo img {
+    width: 100%;
+    aspect-ratio: 4 / 4.6;
+    object-fit: cover;
+    object-position: 25% 20%;
+    border-radius: 2.5rem 2.5rem 0.75rem 2.5rem;
+    border: 3px solid var(--ink);
+    box-shadow: 10px 10px 0 var(--sky);
+  }
+  .story__sticker {
+    position: absolute;
+    right: -0.75rem;
+    top: 1.5rem;
+    padding: 0.6rem 1rem;
+    background: var(--sun);
+    border: 2px solid var(--ink);
+    border-radius: 1rem;
+    box-shadow: 0 4px 0 var(--ink);
+    font-family: var(--font-display);
+    line-height: 1.2;
+    transform: rotate(5deg);
+  }
+  .timeline {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+  }
+  .timeline li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: 1rem;
+    padding: 0 0 1.25rem;
+  }
+  .timeline li::before {
+    content: '';
+    position: absolute;
+    left: 5.75rem;
+    top: 0.55rem;
+    bottom: -0.45rem;
+    width: 2px;
+    background: var(--sky-100);
+  }
+  .timeline li:last-child::before {
+    display: none;
+  }
+  .timeline li > span:last-child {
+    position: relative;
+    padding-left: 1.25rem;
+  }
+  .timeline li > span:last-child::before {
+    content: '';
+    position: absolute;
+    left: -0.55rem;
+    top: 0.45rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: var(--sky);
+    border: 2px solid var(--ink);
+  }
+  .timeline__year {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--sky-700);
+  }
+  @media (max-width: 860px) {
+    .story {
+      grid-template-columns: 1fr;
+    }
+    .story__photo {
+      max-width: 26rem;
+      margin-inline: auto;
+      width: 100%;
+    }
+    .story__sticker {
+      right: 0;
+    }
+  }
+
+  .values-wrap {
+    padding-bottom: clamp(1rem, 4vw, 2rem);
+  }
+  .values {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: 1.25rem;
+  }
+  .values li {
+    padding: 1.75rem;
+  }
+  .values li :global(svg) {
+    color: var(--sky-600);
+  }
+  .values h3 {
+    margin: 0.9rem 0 0.4rem;
+  }
+  .values p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+</style>

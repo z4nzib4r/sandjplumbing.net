@@ -1,0 +1,69 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  script?: string;
+}
+const { eyebrow, title, script } = Astro.props;
+---
+
+<section class="phero">
+  <div class="wrap phero__inner">
+    <span class="eyebrow">{eyebrow}</span>
+    <h1>{title}</h1>
+    {script && <p class="script phero__script">{script}</p>}
+    <div class="phero__lead"><slot /></div>
+  </div>
+  <svg class="phero__drops" viewBox="0 0 300 200" aria-hidden="true">
+    <path d="M70 20c18 21 31 37 31 53a31 31 0 0 1-62 0c0-16 13-32 31-53Z" fill="var(--sky)" opacity=".18"></path>
+    <path d="M200 70c12 14 20 24 20 35a20 20 0 0 1-40 0c0-11 8-21 20-35Z" fill="var(--sun)" opacity=".55"></path>
+    <path d="M260 20c7 8 12 14 12 20a12 12 0 0 1-24 0c0-6 5-12 12-20Z" fill="var(--sky)" opacity=".35"></path>
+  </svg>
+</section>
+
+<style>
+  .phero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(2.75rem, 7vw, 5rem);
+    background:
+      radial-gradient(50rem 22rem at 90% 0%, var(--sky-100), transparent 65%),
+      radial-gradient(30rem 18rem at 0% 100%, var(--sun-200), transparent 60%);
+    border-bottom: 1px solid var(--line);
+  }
+  .phero__inner {
+    position: relative;
+    z-index: 1;
+  }
+  .phero h1 {
+    max-width: 18ch;
+    margin-bottom: 0.3em;
+  }
+  .phero__script {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    margin: -0.2rem 0 0.75rem;
+    transform: rotate(-2deg);
+    transform-origin: left;
+  }
+  .phero__lead {
+    max-width: 40rem;
+    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    color: var(--ink-soft);
+  }
+  .phero__lead :global(p:last-child) {
+    margin-bottom: 0;
+  }
+  .phero__drops {
+    position: absolute;
+    right: clamp(-6rem, -4vw, 0rem);
+    top: 50%;
+    translate: 0 -50%;
+    width: clamp(14rem, 32vw, 26rem);
+    pointer-events: none;
+  }
+  @media (max-width: 640px) {
+    .phero__drops {
+      display: none;
+    }
+  }
+</style>

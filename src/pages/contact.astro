@@ -1,0 +1,179 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+
+const addressQuery = encodeURIComponent(
+  `${site.address.street}, ${site.address.city}, ${site.address.state} ${site.address.zip}`,
+);
+const mapEmbed = `https://maps.google.com/maps?q=${addressQuery}&z=12&output=embed`;
+---
+
+<Layout
+  title="Contact"
+  description={`Call S & J Plumbing at ${site.phones[0].display} or ${site.phones[1].display}. ${site.address.street}, ${site.address.city}, Ohio.`}
+>
+  <PageHero eyebrow="Contact us" title="Let's get that fixed." script="We'd love to hear from you!">
+    <p>The fastest way to reach us is a phone call. Amber will help figure out what you need and get you on the schedule.</p>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap contact">
+      <div class="ways">
+        <div class="way way--phone" data-reveal>
+          <span class="way__icon"><Icon name="phone" size={26} /></span>
+          <div>
+            <h2>Call us</h2>
+            {
+              site.phones.map((p) => (
+                <a class="way__big" href={p.href}>
+                  {p.display}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="way" data-reveal>
+          <span class="way__icon"><Icon name="mail" size={26} /></span>
+          <div>
+            <h2>Email</h2>
+            <a class="way__link" href={`mailto:${site.email}`}>{site.email}</a>
+          </div>
+        </div>
+
+        <div class="way" data-reveal>
+          <span class="way__icon"><Icon name="pin" size={26} /></span>
+          <div>
+            <h2>Office</h2>
+            <address>
+              {site.address.street}<br />
+              {site.address.city}, Ohio {site.address.zip}
+            </address>
+            <a class="way__link" href={site.mapUrl} target="_blank" rel="noopener">
+              Open in Google Maps <Icon name="arrow" size={16} />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="map" data-reveal>
+        <iframe
+          src={mapEmbed}
+          title={`Map showing ${site.address.street}, ${site.address.city}, Ohio`}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .contact {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: clamp(1.25rem, 3vw, 2rem);
+    align-items: stretch;
+  }
+  .ways {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+  }
+  .way {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    padding: 1.5rem 1.75rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    min-width: 0;
+  }
+  .way > div {
+    min-width: 0;
+  }
+  .way h2 {
+    font-size: 1.15rem;
+    margin: 0.2rem 0 0.35rem;
+  }
+  .way address {
+    font-style: normal;
+    margin-bottom: 0.5rem;
+  }
+  .way__icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1rem;
+    background: var(--sky-50);
+    color: var(--sky-700);
+  }
+  .way--phone {
+    background: var(--sun);
+    border: 2px solid var(--ink);
+    box-shadow: 0 5px 0 var(--ink);
+  }
+  .way--phone .way__icon {
+    background: var(--ink);
+    color: var(--sun);
+  }
+  .way__big {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    color: var(--ink);
+    text-decoration: none;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+  .way__big:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+  }
+  .way__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  .map {
+    min-height: 22rem;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 5px 0 var(--ink);
+    overflow: hidden;
+    background: var(--sky-50);
+  }
+  .map iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 22rem;
+    border: 0;
+  }
+
+  @media (max-width: 860px) {
+    .contact {
+      grid-template-columns: 1fr;
+    }
+    .map,
+    .map iframe {
+      min-height: 18rem;
+    }
+  }
+  @media (max-width: 420px) {
+    .way {
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 1.4rem;
+    }
+  }
+</style>

@@ -1,0 +1,107 @@
+---
+import { testimonials } from '../data/site';
+---
+
+<section class="section reviews">
+  <div class="wrap">
+    <div class="reviews__head" data-reveal>
+      <span class="eyebrow">Kind words</span>
+      <h2>Neighbors who've called us</h2>
+      <p class="lead">
+        Real notes from real customers. Some of them call Justin a <span class="script hl">plumbing detective</span>.
+      </p>
+    </div>
+    <div class="reviews__grid">
+      {
+        testimonials.map((t, i) => (
+          <figure class:list={['bubble', `bubble--${i % 4}`]} data-reveal>
+            <span class="bubble__tag">{t.tag}</span>
+            <blockquote>
+              <p>{t.quote}</p>
+            </blockquote>
+            <figcaption>
+              <span class="dash" aria-hidden="true" />
+              <span>{t.name}</span>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .reviews {
+    background: var(--sky-50);
+  }
+  .reviews__head {
+    max-width: 40rem;
+    margin-bottom: 2.75rem;
+  }
+  .hl {
+    font-size: 1.5em;
+    line-height: 1;
+  }
+  .reviews__grid {
+    columns: 2 22rem;
+    column-gap: 1.75rem;
+  }
+  .bubble {
+    position: relative;
+    break-inside: avoid;
+    margin: 0 0 2.75rem;
+    padding: 1.75rem 1.75rem 1.25rem;
+    background: #fff;
+    border: 2px solid var(--ink);
+    border-radius: 1.5rem;
+    box-shadow: 0 5px 0 var(--ink);
+  }
+  /* speech-bubble tail */
+  .bubble::after {
+    content: '';
+    position: absolute;
+    left: 2rem;
+    bottom: -1.5rem;
+    border-style: solid;
+    border-width: 1.1rem 1.4rem 0 0;
+    border-color: var(--ink) transparent transparent transparent;
+  }
+  .bubble--0 {
+    background: var(--sun-200);
+  }
+  .bubble--3 {
+    background: var(--sky-100);
+  }
+  .bubble__tag {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    background: var(--ink);
+    color: #fff;
+    margin-bottom: 0.9rem;
+  }
+  blockquote {
+    margin: 0;
+  }
+  blockquote p {
+    font-size: 1.05rem;
+  }
+  figcaption {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+  .dash {
+    width: 1.5rem;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--wrench);
+  }
+</style>

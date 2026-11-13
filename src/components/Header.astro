@@ -1,0 +1,263 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { site, yearsInBusiness } from '../data/site';
+
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/services/', label: 'Services' },
+  { href: '/about/', label: 'About' },
+  { href: '/contact/', label: 'Contact' },
+];
+
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+const phone = site.phones[0];
+---
+
+<div class="topbar">
+  <div class="wrap topbar__inner">
+    <span><strong>{yearsInBusiness}+ years</strong> in business</span>
+    <span class="topbar__dot" aria-hidden="true">•</span>
+    <span>Master Plumber License {site.license}</span>
+    <span class="topbar__dot topbar__hide" aria-hidden="true">•</span>
+    <span class="topbar__hide">Licensed &amp; insured</span>
+  </div>
+</div>
+
+<header class="header" data-header>
+  <div class="wrap header__inner">
+    <a href="/" class="header__logo" aria-label="S & J Plumbing home">
+      <Logo />
+    </a>
+
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <ul>
+        {
+          links.map((l) => (
+            <li>
+              <a href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="btn nav__call" href={phone.href}>
+        <Icon name="phone" size={18} />
+        Call {phone.display}
+      </a>
+    </nav>
+
+    <a class="btn header__call" href={phone.href}>
+      <Icon name="phone" size={18} />
+      <span class="header__call-num">{phone.display}</span>
+    </a>
+
+    <button
+      class="menu-btn"
+      type="button"
+      aria-controls="site-nav"
+      aria-expanded="false"
+      data-menu-btn
+    >
+      <span class="sr-only">Menu</span>
+      <span class="menu-btn__open"><Icon name="menu" size={26} /></span>
+      <span class="menu-btn__close"><Icon name="close" size={26} /></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]');
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  btn?.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    header?.classList.toggle('is-open', !open);
+    document.body.style.overflow = open ? '' : 'hidden';
+  });
+  window.addEventListener(
+    'scroll',
+    () => header?.classList.toggle('is-scrolled', window.scrollY > 8),
+    { passive: true },
+  );
+</script>
+
+<style>
+  .topbar {
+    background: var(--ink);
+    color: rgb(255 255 255 / 0.85);
+    font-size: 0.85rem;
+  }
+  .topbar__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem 0.75rem;
+    padding-block: 0.45rem;
+    text-align: center;
+  }
+  .topbar strong {
+    color: var(--sun);
+  }
+  .topbar__dot {
+    color: var(--sky);
+  }
+  @media (max-width: 640px) {
+    .topbar__hide,
+    .topbar__dot {
+      display: none;
+    }
+  }
+
+  .header {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 50;
+    background: rgb(251 253 254 / 0.88);
+    backdrop-filter: saturate(1.4) blur(12px);
+    -webkit-backdrop-filter: saturate(1.4) blur(12px);
+    border-bottom: 1px solid transparent;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .header.is-scrolled {
+    border-bottom-color: var(--line);
+    box-shadow: 0 6px 20px -14px rgb(13 43 54 / 0.35);
+  }
+  .header__inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 4.5rem;
+  }
+  .header__logo {
+    text-decoration: none;
+    margin-right: auto;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .nav ul {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav ul a {
+    display: block;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.05rem;
+    color: var(--ink);
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+  .nav ul a:hover {
+    background: var(--sky-50);
+  }
+  .nav ul a[aria-current='page'] {
+    background: var(--sky-100);
+    color: var(--sky-700);
+  }
+  .nav__call {
+    padding: 0.65rem 1.1rem;
+    font-size: 1rem;
+  }
+
+  .header__call,
+  .menu-btn {
+    display: none;
+  }
+
+  .menu-btn {
+    width: 2.9rem;
+    height: 2.9rem;
+    border-radius: 0.9rem;
+    border: 2px solid var(--ink);
+    background: #fff;
+    color: var(--ink);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .menu-btn__open {
+    display: flex;
+  }
+  .menu-btn__close {
+    display: none;
+  }
+  .menu-btn[aria-expanded='true'] .menu-btn__open {
+    display: none;
+  }
+  .menu-btn[aria-expanded='true'] .menu-btn__close {
+    display: flex;
+  }
+
+  @media (max-width: 900px) {
+    .header__call {
+      display: inline-flex;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.95rem;
+      box-shadow: 0 3px 0 var(--ink);
+    }
+    .menu-btn {
+      display: inline-flex;
+    }
+    .nav {
+      position: fixed;
+      inset: calc(4.5rem + env(safe-area-inset-top, 0px)) 0 0 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1.5rem;
+      padding: 1.5rem var(--gutter) calc(2rem + env(safe-area-inset-bottom, 0px));
+      background: var(--paper);
+      border-top: 1px solid var(--line);
+      transform: translateY(-8px);
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0.2s;
+      overflow-y: auto;
+    }
+    .header.is-open .nav {
+      opacity: 1;
+      transform: none;
+      visibility: visible;
+    }
+    .nav ul {
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .nav ul a {
+      font-size: 1.6rem;
+      padding: 0.6rem 1rem;
+      border-radius: 1rem;
+    }
+    .nav__call {
+      font-size: 1.15rem;
+      padding: 1rem;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .header__call-num {
+      display: none;
+    }
+    .header__call {
+      padding: 0.6rem;
+      width: 2.9rem;
+      height: 2.9rem;
+    }
+  }
+</style>
