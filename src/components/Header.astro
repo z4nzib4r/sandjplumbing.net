@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 import { site, yearsInBusiness } from '../data/site';
@@ -11,7 +12,7 @@ const links = [
 ];
 
 const path = Astro.url.pathname.replace(/\/?$/, '/');
-const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+const isActive = (href: string) => (href === '/' ? path === url('/') : path.startsWith(url(href)));
 const phone = site.phones[0];
 ---
 
@@ -27,7 +28,7 @@ const phone = site.phones[0];
 
 <header class="header" data-header>
   <div class="wrap header__inner">
-    <a href="/" class="header__logo" aria-label="S & J Plumbing home">
+    <a href={url("/")} class="header__logo" aria-label="S & J Plumbing home">
       <Logo />
     </a>
 
@@ -36,7 +37,7 @@ const phone = site.phones[0];
         {
           links.map((l) => (
             <li>
-              <a href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>
+              <a href={url(l.href)} aria-current={isActive(l.href) ? 'page' : undefined}>
                 {l.label}
               </a>
             </li>

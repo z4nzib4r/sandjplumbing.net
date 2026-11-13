@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
@@ -35,7 +36,7 @@ const featured = services.slice(1, 7);
           <a class="btn" href={site.phones[0].href}>
             <Icon name="phone" size={20} /> Call {site.phones[0].display}
           </a>
-          <a class="btn btn--ghost" href="/services/">
+          <a class="btn btn--ghost" href={url("/services/")}>
             See our services <Icon name="arrow" size={20} />
           </a>
         </div>
@@ -143,7 +144,7 @@ const featured = services.slice(1, 7);
           <span class="eyebrow"><Icon name="wrench" size={16} /> What we do</span>
           <h2>Full-service plumbing</h2>
         </div>
-        <a class="btn btn--sky" href="/services/">All services <Icon name="arrow" size={20} /></a>
+        <a class="btn btn--sky" href={url("/services/")}>All services <Icon name="arrow" size={20} /></a>
       </div>
       <ul class="svc-grid">
         {
@@ -173,7 +174,7 @@ const featured = services.slice(1, 7);
           headache of managing it yourself. <strong>Peace of mind is priceless!</strong>
         </p>
       </div>
-      <a class="btn btn--white" href="/contact/">Ask about it <Icon name="arrow" size={20} /></a>
+      <a class="btn btn--white" href={url("/contact/")}>Ask about it <Icon name="arrow" size={20} /></a>
     </div>
   </section>
 
